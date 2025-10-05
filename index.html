@@ -1,124 +1,979 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Execute</title>
-    <style>
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>脚本浏览器 - 智能脚本助手</title
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6cf7;
+            --primary-dark: #3a56d4;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --gradient: linear-gradient(135deg, #4a6cf7, #6a11cb);
+        }
+        
         body {
-            margin:0;
-            padding:0;
-            background-color:#000;
-            color:#fff;
-            font-family:Arial, sans-serif;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
         }
-        h1 {
-            font-size:48px;
-            background:linear-gradient(to right, #ff0000, #9900ff);
-            -webkit-background-clip:text;
-            background-clip:text;
-            color:transparent;
-            text-shadow:0 0 2px #ff0000, 0 0 4px #9900ff;
-            margin-bottom:20px;
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        textarea {
-            width:90%;
-            max-width:600px;
-            height:200px;
-            background-color:#1a1a1a;
-            color:#aaa;
-            border:none;
-            border-radius:8px;
-            padding:12px;
-            font-size:16px;
-            resize:none;
-            margin-bottom:20px;
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
-        .btn-container {
-            display:flex;
-            gap:10px;
-            width:90%;
-            max-width:600px;
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
         }
-        button {
-            flex:1;
-            padding:12px 0;
-            border:2px solid transparent;
-            border-radius:8px;
-            font-size:18px;
-            font-weight:bold;
-            cursor:pointer;
-            transition:all 0.3s ease;
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(74, 108, 247, 0.3);
         }
-        .execute-btn {
-            background-color:#000;
-            color:#0f0;
-            border-color:#0f0;
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
-        .execute-btn:hover {
-            background-color:#0f02;
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
         }
-        .clear-btn {
-            background-color:#000;
-            color:#0ff;
-            border-color:#0ff;
+        
+        section {
+            padding: 80px 0;
         }
-        .clear-btn:hover {
-            background-color:#0ff2;
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
         }
-        #videoOverlay {
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background-color:#000;
-            display:none;
-            justify-content:center;
-            align-items:center;
-            z-index:1000;
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
         }
-        #videoOverlay video {
-            width:100%;
-            height:100%;
-            object-fit:contain;
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
         }
-    </style>
-</head>
-<body>
-    <h1>Execute</h1>
-    <textarea id="codeInput">require(6666666).load("c00lkidd")</textarea>
-    <div class="btn-container">
-        <button class="execute-btn" id="executeBtn">Execute</button>
-        <button class="clear-btn" id="clearBtn">Clear</button>
-    </div>
-    <div id="videoOverlay">
-        <video id="videoPlayer" src="video/111.mp4" autoplay muted></video>
-    </div>
-    <script>
-        const executeBtn=document.getElementById('executeBtn');
-        const clearBtn=document.getElementById('clearBtn');
-        const codeInput=document.getElementById('codeInput');
-        const videoOverlay=document.getElementById('videoOverlay');
-        const videoPlayer=document.getElementById('videoPlayer');
-
-        executeBtn.addEventListener('click',()=>{
-            videoPlayer.muted=false;
-            videoOverlay.style.display='flex';
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+      
+        .hero {
+            padding: 180px 0 100px;
+            background: var(--gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,138.7C672,139,768,181,864,181.3C960,181,1056,139,1152,138.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: perspective(1000px) rotateY(-10deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-image img:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        
+        .features {
+            background: var(--light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* 评价区域 */
+        .testimonials {
+            background: white;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        
+        .pricing {
+            background: var(--light);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border: 2px solid var(--primary);
+        }
+        
+        .pricing-card.featured::before {
+            content: '最受欢迎';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: var(--secondary);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+        
+       
+        .faq {
+            background: white;
+        }
+        
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: var(--light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        
+        .download {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+        
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .download p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .store-btn {
+            display: flex;
+            align-items: center;
+            background: white;
+            color: var(--dark);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .store-btn:hover {
+            transform: translateY(-5px);
+        }
+        
+        .store-btn i {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .store-text {
+            text-align: left;
+        }
+        
+        .store-text span {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text {
+                margin-bottom: 50px;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style> 
+  <script src="js/jq.js"></script> 
+ </head> 
+ <body id="v1"> 
+  <header id="v2" style="background: rgba(255, 255, 255, 0.98); box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;"> 
+   <div id="v3" class="container"> 
+    <nav id="v4" class="navbar"> 
+     <a id="v5" href="#" class="logo">脚本<span id="v6">/浏览器</span></a> 
+     <ul id="v7" class="nav-links"> 
+      <li id="v8"><a id="v9" href="#features">功能</a></li> 
+      <li id="v10"><a id="v11" href="#testimonials">评价</a></li> 
+      <li id="v12"><a id="v13" href="#pricing">定价</a></li> 
+      <li id="v14"><a id="v15" href="#faq">FAQ</a></li> 
+      <li id="v16"><a id="v17" href="#" class="btn btn-primary">立即下载</a></li> 
+     </ul> 
+     <div id="v18" class="menu-toggle"> 
+      <i id="v19" class="fas fa-bars"></i> 
+     </div> 
+    </nav> 
+   </div> 
+  </header> 
+  <section id="v20" class="hero"> 
+   <div id="v21" class="container"> 
+    <div id="v22" class="hero-content"> 
+     <div id="v23" class="hero-text"> 
+      <h1 id="v24">方便智能的脚本浏览器</h1> 
+      <p id="v25">一款让roblox注入器玩家更加便捷的软件😍</p> 
+      <div id="v26" class="hero-buttons"> 
+       <a id="v27" href="#" class="btn btn-primary">免费试用</a> 
+       <a id="v28" href="#" class="btn btn-outline" style="color: white; border-color: white;">了解更多</a> 
+      </div> 
+     </div> 
+     <div id="v29" class="hero-image"> 
+      <div id="v30" style="width: 300px; height: 600px; background: white; border-radius: 30px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2);"> 
+       <div id="v31" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #4a6cf7, #6a11cb); opacity: 0.1;"></div> 
+       <div id="v32" style="position: absolute; top: 40px; left: 20px; right: 20px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px;"></div> 
+       <div id="v33" style="position: absolute; top: 100px; left: 20px; right: 20px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 15px;"> 
+       </div> 
+       <div id="v34" style="position: absolute; top: 240px; left: 20px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 15px;"></div> 
+       <div id="v35" style="position: absolute; top: 240px; left: 160px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 15px;"> 
+       </div> 
+       <div id="v36" style="position: absolute; bottom: 100px; left: 20px; right: 20px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 30px;"> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="features" class="features"> 
+   <div id="v37" class="container"> 
+    <div id="v38" class="section-title"> 
+     <h2 id="v39">强大功能</h2> 
+     <p id="v40">脚本浏览器提供了脚本搜索包括gui，可以让你的游戏变得更加便捷</p> 
+    </div> 
+    <div id="v41" class="features-grid"> 
+     <div id="v42" class="feature-card"> 
+      <div id="v43" class="feature-icon"> 
+       <i id="v44" class="fas fa-tasks"></i> 
+      </div> 
+      <h3 id="v45">智能任务管理</h3> 
+      <p id="v46">基于人工的任务优先级排序，自动提醒重要事项，让您的工作效率提升50%</p> 
+     </div> 
+     <div id="v47" class="feature-card"> 
+      <div id="v48" class="feature-icon"> 
+       <i id="v49" class="fas fa-chart-line"></i> 
+      </div> 
+      <h3 id="v50">数据分析</h3> 
+      <p id="v51">可视化数据报告，深入了解您的时间分配和使用习惯，提供个性化改进建议</p> 
+     </div> 
+     <div id="v52" class="feature-card"> 
+      <div id="v53" class="feature-icon"> 
+       <i id="v54" class="fas fa-sync-alt"></i> 
+      </div> 
+      <h3 id="v55">多设备同步</h3> 
+      <p id="v56">在手机、平板和电脑之间无缝同步数据，随时随地访问您的信息</p> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="testimonials" class="testimonials"> 
+   <div id="v57" class="container"> 
+    <div id="v58" class="section-title"> 
+     <h2 id="v59">用户评价</h2> 
+     <p id="v60">看看我们的用户如何评价脚本浏览器</p> 
+    </div> 
+    <div id="v61" class="testimonials-grid"> 
+     <div id="v62" class="testimonial-card"> 
+      <div id="v63" class="testimonial-text">
+        脚本浏览器彻底改变了我的执行方式。以前我经常忘记脚本有什么，现在一切都井井有条，效率提高了至少30%！ 
+      </div> 
+      <div id="v64" class="testimonial-author"> 
+       <div id="v65" class="author-avatar">
+         依 
+       </div> 
+       <div id="v66" class="author-info"> 
+        <h4 id="v67">依旧</h4> 
+        <p id="v68">项目经理</p> 
+       </div> 
+      </div> 
+     </div> 
+     <div id="v69" class="testimonial-card"> 
+      <div id="v70" class="testimonial-text">
+        作为一名自由的脚本和gui玩家，脚本和gui非常的难找。但是这个软件让我的找脚本和gui更加便捷！ 
+      </div> 
+      <div id="v71" class="testimonial-author"> 
+       <div id="v72" class="author-avatar">
+         爱 
+       </div> 
+       <div id="v73" class="author-info"> 
+        <h4 id="v74">爱P昌</h4> 
+        <p id="v75">自由设计师</p> 
+       </div> 
+      </div> 
+     </div> 
+     <div id="v76" class="testimonial-card"> 
+      <div id="v77" class="testimonial-text">
+        多设备同步功能太棒了！我可以在游戏里用任何设备注入脚本！ 
+      </div> 
+      <div id="v78" class="testimonial-author"> 
+       <div id="v79" class="author-avatar">
+         噗 
+       </div> 
+       <div id="v80" class="author-info"> 
+        <h4 id="v81">噗国昌</h4> 
+        <p id="v82">销售总监</p> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="pricing" class="pricing"> 
+   <div id="v83" class="container"> 
+    <div id="v84" class="section-title"> 
+     <h2 id="v85">选择适合您的方案</h2> 
+     <p id="v86">我们提供多种方案，满足不同用户的需求</p> 
+    </div> 
+    <div id="v87" class="pricing-grid"> 
+     <div id="v88" class="pricing-card"> 
+      <div id="v89" class="pricing-header"> 
+       <h3 id="v90">基础版</h3> 
+       <p id="v91">适合个人用户</p> 
+      </div> 
+      <div id="v92" class="price">
+        ¥0 
+       <span id="v93">/月</span> 
+      </div> 
+      <ul id="v94" class="pricing-features"> 
+       <li id="v95"><i id="v96" class="fas fa-check"></i> 基本任务管理</li> 
+       <li id="v97"><i id="v98" class="fas fa-check"></i> 单设备使用</li> 
+       <li id="v99"><i id="v100" class="fas fa-times"></i> 高级分析报告</li> 
+       <li id="v101"><i id="v102" class="fas fa-times"></i> 优先客服支持</li> 
+      </ul> 
+      <a id="v103" href="#" class="btn btn-outline">免费使用</a> 
+     </div> 
+     <div id="v104" class="pricing-card featured"> 
+      <div id="v105" class="pricing-header"> 
+       <h3 id="v106">专业版</h3> 
+       <p id="v107">最适合大多数用户</p> 
+      </div> 
+      <div id="v108" class="price">
+        ¥29 
+       <span id="v109">/月</span> 
+      </div> 
+      <ul id="v110" class="pricing-features"> 
+       <li id="v111"><i id="v112" class="fas fa-check"></i> 所有基础版功能</li> 
+       <li id="v113"><i id="v114" class="fas fa-check"></i> 多设备同步</li> 
+       <li id="v115"><i id="v116" class="fas fa-check"></i> 高级分析报告</li> 
+       <li id="v117"><i id="v118" class="fas fa-times"></i> 优先客服支持</li> 
+      </ul> 
+      <a id="v119" href="#" class="btn btn-primary">立即购买</a> 
+     </div> 
+     <div id="v120" class="pricing-card"> 
+      <div id="v121" class="pricing-header"> 
+       <h3 id="v122">企业版</h3> 
+       <p id="v123">适合团队协作</p> 
+      </div> 
+      <div id="v124" class="price">
+        ¥99 
+       <span id="v125">/月</span> 
+      </div> 
+      <ul id="v126" class="pricing-features"> 
+       <li id="v127"><i id="v128" class="fas fa-check"></i> 所有专业版功能</li> 
+       <li id="v129"><i id="v130" class="fas fa-check"></i> 团队协作工具</li> 
+       <li id="v131"><i id="v132" class="fas fa-check"></i> 定制化功能</li> 
+       <li id="v133"><i id="v134" class="fas fa-check"></i> 优先客服支持</li> 
+      </ul> 
+      <a id="v135" href="#" class="btn btn-outline">联系销售</a> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="faq" class="faq"> 
+   <div id="v136" class="container"> 
+    <div id="v137" class="section-title"> 
+     <h2 id="v138">常见问题</h2> 
+     <p id="v139">以下是一些用户常见问题及解答</p> 
+    </div> 
+    <div id="v140" class="faq-grid"> 
+     <div id="v141" class="faq-item active"> 
+      <div id="v142" class="faq-question"> 
+       <span id="v143">脚本浏览器支持哪些设备？</span> 
+       <i id="v144" class="fas fa-chevron-down"></i> 
+      </div> 
+      <div id="v145" class="faq-answer"> 
+       <p id="v146">脚本浏览器支持iOS 12.0及以上版本的iPhone和iPad，Android 8.0及以上版本的手机和平板，以及Windows和macOS系统的电脑。所有设备间可以实现数据实时同步。</p> 
+      </div> 
+     </div> 
+     <div id="v147" class="faq-item active"> 
+      <div id="v148" class="faq-question"> 
+       <span id="v149">我的数据安全吗？</span> 
+       <i id="v150" class="fas fa-chevron-down"></i> 
+      </div> 
+      <div id="v151" class="faq-answer"> 
+       <p id="v152">我们非常重视用户数据安全。所有数据在传输和存储过程中都采用行业标准的加密技术。我们绝不会将您的数据出售给第三方，并严格遵守相关隐私法规。</p> 
+      </div> 
+     </div> 
+     <div id="v153" class="faq-item active"> 
+      <div id="v154" class="faq-question"> 
+       <span id="v155">如何取消订阅？</span> 
+       <i id="v156" class="fas fa-chevron-down"></i> 
+      </div> 
+      <div id="v157" class="faq-answer"> 
+       <p id="v158">您可以随时在账户设置中取消订阅。取消后，您仍然可以享受已付费期间的服务，到期后将自动转为免费版，不会产生额外费用。</p> 
+      </div> 
+     </div> 
+     <div id="v159" class="faq-item active"> 
+      <div id="v160" class="faq-question"> 
+       <span id="v161">免费版和付费版有什么区别？</span> 
+       <i id="v162" class="fas fa-chevron-down"></i> 
+      </div> 
+      <div id="v163" class="faq-answer"> 
+       <p id="v164">免费版包含基本功能，适合个人简单使用。付费版解锁了多设备同步、高级分析、团队协作等高级功能，并提供更多存储空间和优先客服支持。</p> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="v165" class="download"> 
+   <div id="v166" class="container"> 
+    <h2 id="v167">立即下载脚本浏览器</h2> 
+    <p id="v168">加入超过100万用户的行列，体验智能生活管理</p> 
+    <div id="v169" class="download-buttons"> 
+     <a id="v170" href="#" class="store-btn"> <i id="v171" class="fab fa-apple"></i> 
+      <div id="v172" class="store-text"> 
+       <span id="v173">下载于</span> App Store 
+      </div> </a> 
+     <a id="v174" href="#" class="store-btn"> <i id="v175" class="fab fa-google-play"></i> 
+      <div id="v176" class="store-text"> 
+       <span id="v177">下载于</span> Google Play 
+      </div> </a> 
+     <a id="v178" href="#" class="store-btn"> <i id="v179" class="fab fa-windows"></i> 
+      <div id="v180" class="store-text"> 
+       <span id="v181">下载于</span> Microsoft Store 
+      </div> </a> 
+    </div> 
+   </div> 
+  </section> 
+  <footer id="v182"> 
+   <div id="v183" class="container"> 
+    <div id="v184" class="footer-grid"> 
+     <div id="v185" class="footer-col"> 
+      <h3 id="v186">脚本浏览器</h3> 
+      <p id="v187">帮助您更高效地管理日常生活，节省时间，提高生产力。</p> 
+      <div id="v188" class="social-links"> 
+       <a id="v189" href="#"><i id="v190" class="fab fa-weibo"></i></a> 
+       <a id="v191" href="#"><i id="v192" class="fab fa-weixin"></i></a> 
+       <a id="v193" href="#"><i id="v194" class="fab fa-qq"></i></a> 
+       <a id="v195" href="#"><i id="v196" class="fab fa-github"></i></a> 
+      </div> 
+     </div> 
+     <div id="v197" class="footer-col"> 
+      <h3 id="v198">产品</h3> 
+      <ul id="v199"> 
+       <li id="v200"><a id="v201" href="#">功能</a></li> 
+       <li id="v202"><a id="v203" href="#">定价</a></li> 
+       <li id="v204"><a id="v205" href="#">下载</a></li> 
+       <li id="v206"><a id="v207" href="#">更新日志</a></li> 
+      </ul> 
+     </div> 
+     <div id="v208" class="footer-col"> 
+      <h3 id="v209">支持</h3> 
+      <ul id="v210"> 
+       <li id="v211"><a id="v212" href="#">帮助中心</a></li> 
+       <li id="v213"><a id="v214" href="#">联系我们</a></li> 
+       <li id="v215"><a id="v216" href="#">隐私政策</a></li> 
+       <li id="v217"><a id="v218" href="#">服务条款</a></li> 
+      </ul> 
+     </div> 
+     <div id="v219" class="footer-col"> 
+      <h3 id="v220">公司</h3> 
+      <ul id="v221"> 
+       <li id="v222"><a id="v223" href="#">关于我们</a></li> 
+       <li id="v224"><a id="v225" href="#">博客</a></li> 
+       <li id="v226"><a id="v227" href="#">职业</a></li> 
+       <li id="v228"><a id="v229" href="#">合作伙伴</a></li> 
+      </ul> 
+     </div> 
+    </div> 
+    <div id="v230" class="copyright"> 
+     <p id="v231">© 2025 脚本浏览器. 保留所有权利。</p> 
+    </div> 
+   </div> 
+  </footer> 
+  <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
 
-        clearBtn.addEventListener('click',()=>{
-            codeInput.value='';
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+            });
         });
 
-        videoPlayer.addEventListener('ended',()=>{
-            videoOverlay.style.display='none';
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
         });
-    </script>
-</body>
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>  
+ </body>
 </html>
