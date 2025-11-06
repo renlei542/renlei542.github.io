@@ -3,838 +3,665 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>社区应用</title>
+    <title>用户反馈</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --md-sys-color-primary: #6750A4;
-            --md-sys-color-on-primary: #FFFFFF;
-            --md-sys-color-primary-container: #EADDFF;
-            --md-sys-color-on-primary-container: #21005D;
-            --md-sys-color-secondary: #625B71;
-            --md-sys-color-on-secondary: #FFFFFF;
-            --md-sys-color-secondary-container: #E8DEF8;
-            --md-sys-color-on-secondary-container: #1D192B;
-            --md-sys-color-tertiary: #7D5260;
-            --md-sys-color-on-tertiary: #FFFFFF;
-            --md-sys-color-tertiary-container: #FFD8E4;
-            --md-sys-color-on-tertiary-container: #31111D;
-            --md-sys-color-surface: #FFFBFE;
-            --md-sys-color-on-surface: #1C1B1F;
-            --md-sys-color-surface-variant: #E7E0EC;
-            --md-sys-color-on-surface-variant: #49454F;
-            --md-sys-color-outline: #79747E;
-            --md-sys-color-shadow: #000000;
-            --md-sys-color-error: #B3261E;
-            --md-sys-color-on-error: #FFFFFF;
-            --md-sys-color-error-container: #F9DEDC;
-            --md-sys-color-on-error-container: #410E0B;
+            --md-primary: #6750A4;
+            --md-on-primary: #FFFFFF;
+            --md-primary-container: #EADDFF;
+            --md-on-primary-container: #21005D;
+            --md-secondary: #625B71;
+            --md-on-secondary: #FFFFFF;
+            --md-secondary-container: #E8DEF8;
+            --md-on-secondary-container: #1D192B;
+            --md-tertiary: #7D5260;
+            --md-on-tertiary: #FFFFFF;
+            --md-tertiary-container: #FFD8E4;
+            --md-on-tertiary-container: #31111D;
+            --md-error: #B3261E;
+            --md-on-error: #FFFFFF;
+            --md-error-container: #F9DEDC;
+            --md-on-error-container: #410E0B;
+            --md-background: #FFFBFE;
+            --md-on-background: #1C1B1F;
+            --md-surface: #FFFBFE;
+            --md-on-surface: #1C1B1F;
+            --md-surface-variant: #E7E0EC;
+            --md-on-surface-variant: #49454F;
+            --md-outline: #79747E;
+            --md-shadow: #000000;
             
-            /* 字体 */
-            --md-sys-typescale-body-font: 'Roboto', sans-serif;
+            --md-space-xs: 8px;
+            --md-space-sm: 16px;
+            --md-space-md: 24px;
+            --md-space-lg: 32px;
+            --md-space-xl: 40px;
+            
+            --md-radius-xs: 4px;
+            --md-radius-sm: 8px;
+            --md-radius-md: 12px;
+            --md-radius-lg: 16px;
+            --md-radius-xl: 28px;
+            
+            --md-font-family: 'Roboto', sans-serif;
+            --md-font-size-sm: 14px;
+            --md-font-size-md: 16px;
+            --md-font-size-lg: 22px;
+            --md-font-size-xl: 28px;
+            
+            --md-shadow-1: 0 1px 3px 0 rgba(0,0,0,0.3);
+            --md-shadow-2: 0 3px 6px 0 rgba(0,0,0,0.15);
+            --md-shadow-3: 0 10px 20px 0 rgba(0,0,0,0.15);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--md-sys-typescale-body-font);
         }
-
+        
         body {
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
-            height: 100vh;
+            font-family: var(--md-font-family);
+            background-color: var(--md-background);
+            color: var(--md-on-background);
+            line-height: 1.5;
+            padding: var(--md-space-md);
             display: flex;
             flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-
+        
         .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
         }
-
-        /* 导航栏样式 */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background-color: var(--md-sys-color-surface);
-            border-top: 1px solid var(--md-sys-color-outline);
-            padding: 8px 0;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px 16px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-        }
-
-        .nav-item.active {
-            color: var(--md-sys-color-primary);
-        }
-
-        .nav-item:hover {
-            background-color: var(--md-sys-color-surface-variant);
-        }
-
-        .nav-icon {
-            font-size: 24px;
-            margin-bottom: 4px;
-        }
-
-        .nav-label {
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* 页面内容样式 */
-        .page {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* 主页样式 */
-        .welcome-header {
+        
+        header {
             text-align: center;
-            margin: 32px 0 24px;
+            margin-bottom: var(--md-space-xl);
         }
-
-        .welcome-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--md-sys-color-primary);
-            margin-bottom: 8px;
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--md-space-sm);
+            margin-bottom: var(--md-space-sm);
         }
-
-        .welcome-subtitle {
-            font-size: 16px;
-            color: var(--md-sys-color-on-surface-variant);
+        
+        .logo-icon {
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: var(--md-radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
         }
-
-        .community-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
+        
+        h1 {
+            font-size: var(--md-font-size-xl);
+            font-weight: 500;
+            color: var(--md-on-surface);
         }
-
-        .community-card {
-            background-color: var(--md-sys-color-surface-variant);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        
+        .subtitle {
+            color: var(--md-on-surface-variant);
+            font-size: var(--md-font-size-md);
+            margin-top: var(--md-space-xs);
         }
-
+        
+        .feedback-card {
+            background-color: var(--md-surface);
+            border-radius: var(--md-radius-lg);
+            padding: var(--md-space-lg);
+            box-shadow: var(--md-shadow-1);
+            margin-bottom: var(--md-space-lg);
+        }
+        
         .card-title {
-            font-size: 18px;
+            font-size: var(--md-font-size-lg);
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: var(--md-space-md);
+            color: var(--md-on-surface);
         }
-
-        .card-content {
-            font-size: 14px;
-            color: var(--md-sys-color-on-surface-variant);
-        }
-
-        /* 个人信息页面样式 */
-        .profile-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .avatar-container {
-            position: relative;
-            margin-right: 16px;
-        }
-
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: var(--md-sys-color-primary-container);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: var(--md-sys-color-on-primary-container);
-            overflow: hidden;
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .change-avatar-btn {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .profile-email {
-            font-size: 14px;
-            color: var(--md-sys-color-on-surface-variant);
-        }
-
-        .profile-section {
-            margin-bottom: 24px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 16px;
-            color: var(--md-sys-color-primary);
-        }
-
+        
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: var(--md-space-md);
         }
-
-        .form-label {
+        
+        .label {
             display: block;
-            font-size: 14px;
+            margin-bottom: var(--md-space-xs);
+            font-size: var(--md-font-size-sm);
+            color: var(--md-on-surface-variant);
             font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--md-sys-color-on-surface-variant);
         }
-
-        .form-input {
+        
+        .required::after {
+            content: " *";
+            color: var(--md-error);
+        }
+        
+        .input-field {
+            position: relative;
+            margin-bottom: var(--md-space-md);
+        }
+        
+        .input-field input,
+        .input-field textarea,
+        .input-field select {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--md-sys-color-outline);
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--md-sys-color-primary);
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 20px;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-primary {
-            background-color: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-        }
-
-        .btn-primary:hover {
-            background-color: #5a4790;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-outline {
+            padding: var(--md-space-sm) var(--md-space-md);
+            border: 1px solid var(--md-outline);
+            border-radius: var(--md-radius-sm);
             background-color: transparent;
-            color: var(--md-sys-color-primary);
-            border: 1px solid var(--md-sys-color-primary);
+            font-family: var(--md-font-family);
+            font-size: var(--md-font-size-md);
+            color: var(--md-on-surface);
+            transition: all 0.2s ease;
         }
-
-        .btn-outline:hover {
-            background-color: var(--md-sys-color-primary-container);
+        
+        .input-field input:focus,
+        .input-field textarea:focus,
+        .input-field select:focus {
+            outline: none;
+            border-color: var(--md-primary);
+            box-shadow: 0 0 0 1px var(--md-primary);
         }
-
-        /* 登录/注册页面样式 */
-        .auth-container {
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 24px;
-            background-color: var(--md-sys-color-surface);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .input-field textarea {
+            min-height: 120px;
+            resize: vertical;
         }
-
-        .auth-title {
-            font-size: 24px;
-            font-weight: 500;
-            text-align: center;
-            margin-bottom: 24px;
-            color: var(--md-sys-color-primary);
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--md-sys-color-outline);
-        }
-
-        .auth-tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--md-sys-color-on-surface-variant);
-            transition: color 0.2s;
-        }
-
-        .auth-tab.active {
-            color: var(--md-sys-color-primary);
-            border-bottom: 2px solid var(--md-sys-color-primary);
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-actions {
+        
+        .rating-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 24px;
+            margin-top: var(--md-space-sm);
         }
-
-        .remember-me {
+        
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--md-space-xs);
+            border-radius: var(--md-radius-sm);
+            transition: background-color 0.2s ease;
+        }
+        
+        .rating-option:hover {
+            background-color: var(--md-surface-variant);
+        }
+        
+        .rating-option.selected {
+            background-color: var(--md-primary-container);
+        }
+        
+        .rating-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            font-size: 14px;
+            justify-content: center;
+            margin-bottom: var(--md-space-xs);
+            font-size: 20px;
+            color: var(--md-on-surface-variant);
         }
-
-        .remember-me input {
-            margin-right: 8px;
+        
+        .rating-option.selected .rating-icon {
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
         }
-
-        .forgot-password {
-            font-size: 14px;
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
+        
+        .rating-label {
+            font-size: var(--md-font-size-sm);
+            color: var(--md-on-surface-variant);
         }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 14px;
-            color: var(--md-sys-color-on-surface-variant);
+        
+        .rating-option.selected .rating-label {
+            color: var(--md-on-primary-container);
+            font-weight: 500;
         }
-
-        .auth-footer a {
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--md-space-sm);
+            margin-top: var(--md-space-sm);
         }
-
-        /* 响应式设计 */
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: var(--md-space-xs);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--md-primary);
+        }
+        
+        .checkbox-item label {
+            font-size: var(--md-font-size-md);
+            color: var(--md-on-surface);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: var(--md-space-sm);
+            margin-top: var(--md-space-lg);
+        }
+        
+        .md-button {
+            padding: var(--md-space-sm) var(--md-space-md);
+            border: none;
+            border-radius: var(--md-radius-xl);
+            font-family: var(--md-font-family);
+            font-size: var(--md-font-size-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--md-space-xs);
+        }
+        
+        .md-button.primary {
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
+            flex: 1;
+        }
+        
+        .md-button.primary:hover {
+            box-shadow: var(--md-shadow-2);
+        }
+        
+        .md-button.secondary {
+            background-color: transparent;
+            color: var(--md-primary);
+            border: 1px solid var(--md-outline);
+        }
+        
+        .md-button.secondary:hover {
+            background-color: var(--md-primary-container);
+        }
+        
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .dialog-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .dialog {
+            background-color: var(--md-surface);
+            border-radius: var(--md-radius-lg);
+            padding: var(--md-space-lg);
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--md-shadow-3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .dialog-overlay.active .dialog {
+            transform: scale(1);
+        }
+        
+        .dialog-title {
+            font-size: var(--md-font-size-lg);
+            font-weight: 500;
+            margin-bottom: var(--md-space-sm);
+            color: var(--md-on-surface);
+        }
+        
+        .dialog-content {
+            margin-bottom: var(--md-space-lg);
+            color: var(--md-on-surface-variant);
+        }
+        
+        .dialog-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--md-space-sm);
+        }
+        
+        .snackbar {
+            position: fixed;
+            bottom: var(--md-space-lg);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--md-on-surface);
+            color: var(--md-surface);
+            padding: var(--md-space-sm) var(--md-space-md);
+            border-radius: var(--md-radius-sm);
+            box-shadow: var(--md-shadow-2);
+            display: flex;
+            align-items: center;
+            gap: var(--md-space-sm);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .snackbar.active {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .snackbar-icon {
+            color: var(--md-primary-container);
+        }
+        
         @media (max-width: 600px) {
-            .community-cards {
-                grid-template-columns: 1fr;
+            body {
+                padding: var(--md-space-sm);
             }
             
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
+            .feedback-card {
+                padding: var(--md-space-md);
             }
             
-            .avatar-container {
-                margin-right: 0;
-                margin-bottom: 16px;
+            .rating-container {
+                flex-wrap: wrap;
+                gap: var(--md-space-xs);
+            }
+            
+            .rating-option {
+                flex: 1;
+                min-width: 60px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 登录/注册页面 -->
-        <div id="auth-page" class="page active">
-            <div class="auth-container">
-                <h1 class="auth-title">欢迎加入社区</h1>
-                <div class="auth-tabs">
-                    <div class="auth-tab active" data-tab="login">登录</div>
-                    <div class="auth-tab" data-tab="register">注册</div>
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <span class="material-icons">feedback</span>
                 </div>
+                <h1>用户反馈</h1>
+            </div>
+            <p class="subtitle">您的意见对我们非常重要，感谢您抽出时间提供反馈</p>
+        </header>
+        
+        <main>
+            <div class="feedback-card">
+                <h2 class="card-title">分享您的想法</h2>
                 
-                <form id="login-form" class="auth-form active">
+                <form id="feedbackForm">
                     <div class="form-group">
-                        <label class="form-label" for="login-email">邮箱</label>
-                        <input type="email" id="login-email" class="form-input" required>
+                        <label class="label required" for="name">您的姓名</label>
+                        <div class="input-field">
+                            <input type="text" id="name" name="name" required>
+                        </div>
                     </div>
+                    
                     <div class="form-group">
-                        <label class="form-label" for="login-password">密码</label>
-                        <input type="password" id="login-password" class="form-input" required>
+                        <label class="label required" for="email">电子邮箱</label>
+                        <div class="input-field">
+                            <input type="email" id="email" name="email" required>
+                        </div>
                     </div>
-                    <div class="form-actions">
-                        <label class="remember-me">
-                            <input type="checkbox" id="remember-me">
-                            记住我
-                        </label>
-                        <a href="#" class="forgot-password">忘记密码?</a>
+                    
+                    <div class="form-group">
+                        <label class="label required">总体满意度</label>
+                        <div class="rating-container">
+                            <div class="rating-option" data-value="1">
+                                <div class="rating-icon">
+                                    <span class="material-icons">sentiment_very_dissatisfied</span>
+                                </div>
+                                <span class="rating-label">非常不满意</span>
+                            </div>
+                            <div class="rating-option" data-value="2">
+                                <div class="rating-icon">
+                                    <span class="material-icons">sentiment_dissatisfied</span>
+                                </div>
+                                <span class="rating-label">不满意</span>
+                            </div>
+                            <div class="rating-option" data-value="3">
+                                <div class="rating-icon">
+                                    <span class="material-icons">sentiment_neutral</span>
+                                </div>
+                                <span class="rating-label">一般</span>
+                            </div>
+                            <div class="rating-option" data-value="4">
+                                <div class="rating-icon">
+                                    <span class="material-icons">sentiment_satisfied</span>
+                                </div>
+                                <span class="rating-label">满意</span>
+                            </div>
+                            <div class="rating-option" data-value="5">
+                                <div class="rating-icon">
+                                    <span class="material-icons">sentiment_very_satisfied</span>
+                                </div>
+                                <span class="rating-label">非常满意</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px;">登录</button>
+                    
+                    <div class="form-group">
+                        <label class="label" for="category">反馈类别</label>
+                        <div class="input-field">
+                            <select id="category" name="category">
+                                <option value="">请选择类别</option>
+                                <option value="bug">错误报告</option>
+                                <option value="suggestion">功能建议</option>
+                                <option value="ui">界面问题</option>
+                                <option value="performance">性能问题</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label required" for="message">详细反馈</label>
+                        <div class="input-field">
+                            <textarea id="message" name="message" placeholder="请详细描述您的反馈、建议或遇到的问题..." required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label">您是否愿意我们与您联系以获取更多信息？</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="contact-permission" name="contact-permission">
+                                <label for="contact-permission">是的，我愿意接受进一步联系</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="md-button secondary" id="resetButton">
+                            <span class="material-icons">refresh</span>
+                            重置
+                        </button>
+                        <button type="submit" class="md-button primary">
+                            <span class="material-icons">send</span>
+                            提交反馈
+                        </button>
+                    </div>
                 </form>
-                
-                <form id="register-form" class="auth-form">
-                    <div class="form-group">
-                        <label class="form-label" for="register-name">姓名</label>
-                        <input type="text" id="register-name" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="register-email">邮箱</label>
-                        <input type="email" id="register-email" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="register-password">密码</label>
-                        <input type="password" id="register-password" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="register-confirm-password">确认密码</label>
-                        <input type="password" id="register-confirm-password" class="form-input" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px;">注册</button>
-                </form>
-                
-                <div class="auth-footer">
-                    继续即表示您同意我们的 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a>
-                </div>
             </div>
-        </div>
-        
-        <!-- 主页 -->
-        <div id="home-page" class="page">
-            <div class="welcome-header">
-                <h1 class="welcome-title">Welcome to our community</h1>
-                <p class="welcome-subtitle">加入我们，与志同道合的人一起分享、学习和成长</p>
+        </main>
+    </div>
+    
+    <div class="dialog-overlay" id="confirmationDialog">
+        <div class="dialog">
+            <h3 class="dialog-title">感谢您的反馈！</h3>
+            <div class="dialog-content">
+                <p>您的反馈已成功提交。我们会认真阅读每一条反馈，并努力改进我们的产品和服务。</p>
+                <p>反馈内容已发送至：511651251@qq.com</p>
             </div>
-            
-            <div class="community-cards">
-                <div class="community-card">
-                    <h3 class="card-title">社区活动</h3>
-                    <p class="card-content">参与我们定期举办的线上和线下活动，结识新朋友，拓展视野。</p>
-                </div>
-                <div class="community-card">
-                    <h3 class="card-title">知识分享</h3>
-                    <p class="card-content">分享你的专业知识和经验，或者从他人那里学习新技能。</p>
-                </div>
-                <div class="community-card">
-                    <h3 class="card-title">项目合作</h3>
-                    <p class="card-content">找到志同道合的伙伴，一起完成有趣的项目。</p>
-                </div>
-                <div class="community-card">
-                    <h3 class="card-title">资源库</h3>
-                    <p class="card-content">访问我们精心整理的资源库，获取学习材料和工具。</p>
-                </div>
+            <div class="dialog-actions">
+                <button class="md-button secondary" id="dialogCloseButton">关闭</button>
             </div>
-        </div>
-        
-        <!-- 个人信息页面 -->
-        <div id="profile-page" class="page">
-            <div class="profile-header">
-                <div class="avatar-container">
-                    <div class="avatar" id="user-avatar">
-                        <span id="avatar-initials">U</span>
-                    </div>
-                    <div class="change-avatar-btn" id="change-avatar-btn">
-                        <span class="material-icons nav-icon">edit</span>
-                    </div>
-                    <input type="file" id="avatar-input" accept="image/*" style="display: none;">
-                </div>
-                <div class="profile-info">
-                    <h2 class="profile-name" id="profile-name">用户名称</h2>
-                    <p class="profile-email" id="profile-email">user@example.com</p>
-                </div>
-            </div>
-            
-            <div class="profile-section">
-                <h3 class="section-title">个人信息</h3>
-                <div class="form-group">
-                    <label class="form-label" for="edit-name">姓名</label>
-                    <input type="text" id="edit-name" class="form-input" value="用户名称">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="edit-email">邮箱</label>
-                    <input type="email" id="edit-email" class="form-input" value="user@example.com">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="edit-bio">个人简介</label>
-                    <textarea id="edit-bio" class="form-input" rows="3" placeholder="介绍一下你自己..."></textarea>
-                </div>
-                <button class="btn btn-primary" id="save-profile-btn">保存更改</button>
-            </div>
-            
-            <div class="profile-section">
-                <h3 class="section-title">账户设置</h3>
-                <button class="btn btn-outline" style="width: 100%; margin-bottom: 12px;">更改密码</button>
-                <button class="btn btn-outline" style="width: 100%; margin-bottom: 12px;">隐私设置</button>
-                <button class="btn btn-outline" style="width: 100%;" id="logout-btn">退出登录</button>
-            </div>
-        </div>
-        
-        <!-- 底部导航栏 -->
-        <div class="bottom-nav" id="bottom-nav" style="display: none;">
-            <a href="#" class="nav-item active" data-page="home-page">
-                <span class="material-icons nav-icon">home</span>
-                <span class="nav-label">主页</span>
-            </a>
-            <a href="#" class="nav-item" data-page="profile-page">
-                <span class="material-icons nav-icon">person</span>
-                <span class="nav-label">个人信息</span>
-            </a>
         </div>
     </div>
-
+    
+    <div class="dialog-overlay" id="errorDialog">
+        <div class="dialog">
+            <h3 class="dialog-title">提交失败</h3>
+            <div class="dialog-content">
+                <p>抱歉，提交过程中出现了问题。请检查您的网络连接，或稍后重试。</p>
+            </div>
+            <div class="dialog-actions">
+                <button class="md-button secondary" id="errorDialogCloseButton">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="snackbar" id="successSnackbar">
+        <span class="material-icons snackbar-icon">check_circle</span>
+        <span>反馈提交成功！</span>
+    </div>
+    
     <script>
-        // 用户数据管理
-        class UserManager {
-            constructor() {
-                this.currentUser = null;
-                this.loadUserData();
+        const ratingOptions = document.querySelectorAll('.rating-option');
+        const ratingInput = document.getElementById('rating');
+        
+        ratingOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                ratingOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                ratingInput.value = option.getAttribute('data-value');
+            });
+        });
+        
+        const feedbackForm = document.getElementById('feedbackForm');
+        const resetButton = document.getElementById('resetButton');
+        const confirmationDialog = document.getElementById('confirmationDialog');
+        const errorDialog = document.getElementById('errorDialog');
+        const dialogCloseButton = document.getElementById('dialogCloseButton');
+        const errorDialogCloseButton = document.getElementById('errorDialogCloseButton');
+        const successSnackbar = document.getElementById('successSnackbar');
+        
+        feedbackForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
             }
             
-            // 从localStorage加载用户数据
-            loadUserData() {
-                const userData = localStorage.getItem('currentUser');
-                if (userData) {
-                    this.currentUser = JSON.parse(userData);
-                }
-            }
+            const formData = new FormData(feedbackForm);
+            const feedbackData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                rating: formData.get('rating'),
+                category: formData.get('category'),
+                message: formData.get('message'),
+                contactPermission: formData.get('contact-permission') ? '是' : '否',
+                timestamp: new Date().toLocaleString('zh-CN')
+            };
             
-            // 保存用户数据到localStorage
-            saveUserData() {
-                if (this.currentUser) {
-                    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-                }
-            }
+            sendFeedbackEmail(feedbackData);
             
-            // 登录
-            login(email, password, rememberMe) {
-                // 在实际应用中，这里应该与服务器进行验证
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    this.currentUser = { ...user };
-                    if (rememberMe) {
-                        localStorage.setItem('rememberedEmail', email);
-                    }
-                    this.saveUserData();
-                    return true;
-                }
+            showSuccessMessage();
+            
+            resetForm();
+        });
+        
+        resetButton.addEventListener('click', resetForm);
+        
+        dialogCloseButton.addEventListener('click', () => {
+            confirmationDialog.classList.remove('active');
+        });
+        
+        errorDialogCloseButton.addEventListener('click', () => {
+            errorDialog.classList.remove('active');
+        });
+        
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const rating = document.getElementById('rating').value;
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name) {
+                alert('请输入您的姓名');
                 return false;
             }
             
-            // 注册
-            register(name, email, password) {
-                // 检查邮箱是否已存在
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                if (users.some(u => u.email === email)) {
-                    return false;
-                }
-                
-                // 创建新用户
-                const newUser = {
-                    id: Date.now().toString(),
-                    name,
-                    email,
-                    password,
-                    avatar: null,
-                    bio: ''
-                };
-                
-                users.push(newUser);
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                this.currentUser = { ...newUser };
-                this.saveUserData();
-                return true;
+            if (!email) {
+                alert('请输入您的电子邮箱');
+                return false;
             }
             
-            // 更新用户资料
-            updateProfile(name, email, bio) {
-                if (!this.currentUser) return false;
-                
-                // 更新当前用户数据
-                this.currentUser.name = name;
-                this.currentUser.email = email;
-                this.currentUser.bio = bio;
-                
-                // 更新存储的用户数据
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const userIndex = users.findIndex(u => u.id === this.currentUser.id);
-                if (userIndex !== -1) {
-                    users[userIndex] = { ...this.currentUser };
-                    localStorage.setItem('users', JSON.stringify(users));
-                }
-                
-                this.saveUserData();
-                return true;
+            if (!isValidEmail(email)) {
+                alert('请输入有效的电子邮箱地址');
+                return false;
             }
             
-            // 更新头像
-            updateAvatar(avatarData) {
-                if (!this.currentUser) return false;
-                
-                this.currentUser.avatar = avatarData;
-                
-                // 更新存储的用户数据
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const userIndex = users.findIndex(u => u.id === this.currentUser.id);
-                if (userIndex !== -1) {
-                    users[userIndex] = { ...this.currentUser };
-                    localStorage.setItem('users', JSON.stringify(users));
-                }
-                
-                this.saveUserData();
-                return true;
+            if (!rating) {
+                alert('请选择您的满意度');
+                return false;
             }
             
-            // 退出登录
-            logout() {
-                this.currentUser = null;
-                localStorage.removeItem('currentUser');
+            if (!message) {
+                alert('请输入您的反馈内容');
+                return false;
             }
             
-            // 检查是否已登录
-            isLoggedIn() {
-                return this.currentUser !== null;
-            }
+            return true;
         }
-
-        // 初始化用户管理器
-        const userManager = new UserManager();
-
-        // DOM元素
-        const authPage = document.getElementById('auth-page');
-        const homePage = document.getElementById('home-page');
-        const profilePage = document.getElementById('profile-page');
-        const bottomNav = document.getElementById('bottom-nav');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const authForms = document.querySelectorAll('.auth-form');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const navItems = document.querySelectorAll('.nav-item');
-        const changeAvatarBtn = document.getElementById('change-avatar-btn');
-        const avatarInput = document.getElementById('avatar-input');
-        const userAvatar = document.getElementById('user-avatar');
-        const avatarInitials = document.getElementById('avatar-initials');
-        const profileName = document.getElementById('profile-name');
-        const profileEmail = document.getElementById('profile-email');
-        const editName = document.getElementById('edit-name');
-        const editEmail = document.getElementById('edit-email');
-        const editBio = document.getElementById('edit-bio');
-        const saveProfileBtn = document.getElementById('save-profile-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // 初始化应用
-        function initApp() {
-            // 检查用户是否已登录
-            if (userManager.isLoggedIn()) {
-                showMainApp();
-            } else {
-                showAuthPage();
-            }
-            
-            // 设置事件监听器
-            setupEventListeners();
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
-
-        // 显示认证页面
-        function showAuthPage() {
-            authPage.classList.add('active');
-            homePage.classList.remove('active');
-            profilePage.classList.remove('active');
-            bottomNav.style.display = 'none';
+        
+        function sendFeedbackEmail(feedbackData) {
+            console.log('发送反馈邮件到: 511651251@qq.com');
+            console.log('反馈内容:', feedbackData);
             
-            // 如果有记住的邮箱，填充登录表单
-            const rememberedEmail = localStorage.getItem('rememberedEmail');
-            if (rememberedEmail) {
-                document.getElementById('login-email').value = rememberedEmail;
-                document.getElementById('remember-me').checked = true;
-            }
-        }
-
-        // 显示主应用
-        function showMainApp() {
-            authPage.classList.remove('active');
-            homePage.classList.add('active');
-            profilePage.classList.remove('active');
-            bottomNav.style.display = 'flex';
-            
-            // 更新用户信息
-            updateUserProfile();
-        }
-
-        // 更新用户资料显示
-        function updateUserProfile() {
-            if (!userManager.currentUser) return;
-            
-            const user = userManager.currentUser;
-            
-            // 更新个人信息页面
-            profileName.textContent = user.name;
-            profileEmail.textContent = user.email;
-            editName.value = user.name;
-            editEmail.value = user.email;
-            editBio.value = user.bio || '';
-            
-            // 更新头像
-            if (user.avatar) {
-                userAvatar.innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
-                avatarInitials.style.display = 'none';
-            } else {
-                userAvatar.innerHTML = '';
-                avatarInitials.style.display = 'flex';
-                avatarInitials.textContent = user.name.charAt(0).toUpperCase();
-            }
-        }
-
-        // 设置事件监听器
-        function setupEventListeners() {
-            // 认证标签切换
-            authTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabName = tab.getAttribute('data-tab');
-                    
-                    authTabs.forEach(t => t.classList.remove('active'));
-                    authForms.forEach(f => f.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(`${tabName}-form`).classList.add('active');
-                });
-            });
-            
-            // 登录表单提交
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+            setTimeout(() => {
+                const success = Math.random() > 0.2;
                 
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const rememberMe = document.getElementById('remember-me').checked;
-                
-                if (userManager.login(email, password, rememberMe)) {
-                    showMainApp();
+                if (success) {
+                    confirmationDialog.classList.add('active');
                 } else {
-                    alert('邮箱或密码错误，请重试。');
+                    errorDialog.classList.add('active');
                 }
-            });
-            
-            // 注册表单提交
-            registerForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const name = document.getElementById('register-name').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                const confirmPassword = document.getElementById('register-confirm-password').value;
-                
-                if (password !== confirmPassword) {
-                    alert('密码不匹配，请重试。');
-                    return;
-                }
-                
-                if (userManager.register(name, email, password)) {
-                    showMainApp();
-                } else {
-                    alert('该邮箱已被注册，请使用其他邮箱。');
-                }
-            });
-            
-            // 底部导航切换
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    const pageId = item.getAttribute('data-page');
-                    
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                    
-                    item.classList.add('active');
-                    document.getElementById(pageId).classList.add('active');
-                });
-            });
-            
-            // 更改头像
-            changeAvatarBtn.addEventListener('click', () => {
-                avatarInput.click();
-            });
-            
-            avatarInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        userManager.updateAvatar(event.target.result);
-                        updateUserProfile();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            // 保存资料
-            saveProfileBtn.addEventListener('click', () => {
-                const name = editName.value;
-                const email = editEmail.value;
-                const bio = editBio.value;
-                
-                if (userManager.updateProfile(name, email, bio)) {
-                    updateUserProfile();
-                    alert('资料已成功更新！');
-                } else {
-                    alert('更新失败，请重试。');
-                }
-            });
-            
-            // 退出登录
-            logoutBtn.addEventListener('click', () => {
-                userManager.logout();
-                showAuthPage();
-            });
+            }, 1000);
         }
-
-        // 初始化应用
-        document.addEventListener('DOMContentLoaded', initApp);
+        
+        function showSuccessMessage() {
+            successSnackbar.classList.add('active');
+            setTimeout(() => {
+                successSnackbar.classList.remove('active');
+            }, 3000);
+        }
+        
+        function resetForm() {
+            feedbackForm.reset();
+            ratingOptions.forEach(opt => opt.classList.remove('selected'));
+            ratingInput.value = '';
+        }
     </script>
 </body>
 </html>
