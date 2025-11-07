@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户反馈</title>
+    <title>用户反馈 - 优化体验</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -55,6 +55,33 @@
             --md-shadow-2: 0 3px 6px 0 rgba(0,0,0,0.15);
             --md-shadow-3: 0 10px 20px 0 rgba(0,0,0,0.15);
         }
+
+        [data-theme="dark"] {
+            --md-primary: #D0BCFF;
+            --md-on-primary: #371E73;
+            --md-primary-container: #4F378B;
+            --md-on-primary-container: #EADDFF;
+            --md-secondary: #CCC2DC;
+            --md-on-secondary: #332D41;
+            --md-secondary-container: #4A4458;
+            --md-on-secondary-container: #E8DEF8;
+            --md-tertiary: #EFB8C8;
+            --md-on-tertiary: #492532;
+            --md-tertiary-container: #633B48;
+            --md-on-tertiary-container: #FFD8E4;
+            --md-error: #F2B8B5;
+            --md-on-error: #601410;
+            --md-error-container: #8C1D18;
+            --md-on-error-container: #F9DEDC;
+            --md-background: #141218;
+            --md-on-background: #E6E1E5;
+            --md-surface: #141218;
+            --md-on-surface: #E6E1E5;
+            --md-surface-variant: #49454F;
+            --md-on-surface-variant: #CAC4D0;
+            --md-outline: #938F99;
+            --md-shadow: #000000;
+        }
         
         * {
             margin: 0;
@@ -72,6 +99,29 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--md-shadow-1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            box-shadow: var(--md-shadow-2);
         }
         
         .container {
@@ -123,6 +173,7 @@
             padding: var(--md-space-lg);
             box-shadow: var(--md-shadow-1);
             margin-bottom: var(--md-space-lg);
+            transition: background-color 0.3s ease;
         }
         
         .card-title {
@@ -230,6 +281,101 @@
         .rating-option.selected .rating-label {
             color: var(--md-on-primary-container);
             font-weight: 500;
+        }
+        
+        .image-upload-container {
+            border: 2px dashed var(--md-outline);
+            border-radius: var(--md-radius-sm);
+            padding: var(--md-space-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: var(--md-space-sm);
+        }
+        
+        .image-upload-container:hover {
+            border-color: var(--md-primary);
+            background-color: var(--md-surface-variant);
+        }
+        
+        .image-upload-container.dragover {
+            border-color: var(--md-primary);
+            background-color: var(--md-primary-container);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--md-outline);
+            margin-bottom: var(--md-space-sm);
+        }
+        
+        .image-upload-container:hover .upload-icon {
+            color: var(--md-primary);
+        }
+        
+        .upload-text {
+            color: var(--md-on-surface-variant);
+            margin-bottom: var(--md-space-sm);
+        }
+        
+        .upload-button {
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
+            border: none;
+            border-radius: var(--md-radius-xl);
+            padding: var(--md-space-xs) var(--md-space-md);
+            font-family: var(--md-font-family);
+            font-size: var(--md-font-size-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .upload-button:hover {
+            box-shadow: var(--md-shadow-1);
+        }
+        
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--md-space-sm);
+            margin-top: var(--md-space-md);
+        }
+        
+        .image-preview {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: var(--md-radius-sm);
+            overflow: hidden;
+            box-shadow: var(--md-shadow-1);
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: var(--md-error);
+            color: var(--md-on-error);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+        
+        .image-remove:hover {
+            opacity: 1;
         }
         
         .checkbox-group {
@@ -394,10 +540,19 @@
                 flex: 1;
                 min-width: 60px;
             }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="theme-toggle" id="themeToggle">
+        <span class="material-icons" id="themeIcon">dark_mode</span>
+    </div>
+    
     <div class="container">
         <header>
             <div class="logo">
@@ -480,6 +635,19 @@
                     </div>
                     
                     <div class="form-group">
+                        <label class="label">添加图片（可选）</label>
+                        <div class="image-upload-container" id="imageUpload">
+                            <div class="upload-icon">
+                                <span class="material-icons">cloud_upload</span>
+                            </div>
+                            <p class="upload-text">拖放图片到这里或点击上传</p>
+                            <button type="button" class="upload-button">选择图片</button>
+                            <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+                        </div>
+                        <div class="image-preview-container" id="imagePreviewContainer"></div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label class="label required" for="message">详细反馈</label>
                         <div class="input-field">
                             <textarea id="message" name="message" placeholder="请详细描述您的反馈、建议或遇到的问题..." required></textarea>
@@ -544,6 +712,20 @@
     <script>
         const ratingOptions = document.querySelectorAll('.rating-option');
         const ratingInput = document.getElementById('rating');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const imageUpload = document.getElementById('imageUpload');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const resetButton = document.getElementById('resetButton');
+        const confirmationDialog = document.getElementById('confirmationDialog');
+        const errorDialog = document.getElementById('errorDialog');
+        const dialogCloseButton = document.getElementById('dialogCloseButton');
+        const errorDialogCloseButton = document.getElementById('errorDialogCloseButton');
+        const successSnackbar = document.getElementById('successSnackbar');
+        
+        let uploadedImages = [];
         
         ratingOptions.forEach(option => {
             option.addEventListener('click', () => {
@@ -553,13 +735,81 @@
             });
         });
         
-        const feedbackForm = document.getElementById('feedbackForm');
-        const resetButton = document.getElementById('resetButton');
-        const confirmationDialog = document.getElementById('confirmationDialog');
-        const errorDialog = document.getElementById('errorDialog');
-        const dialogCloseButton = document.getElementById('dialogCloseButton');
-        const errorDialogCloseButton = document.getElementById('errorDialogCloseButton');
-        const successSnackbar = document.getElementById('successSnackbar');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = 'light_mode';
+            }
+        });
+        
+        imageUpload.addEventListener('click', () => {
+            imageInput.click();
+        });
+        
+        imageInput.addEventListener('change', (e) => {
+            handleImageUpload(e.target.files);
+        });
+        
+        imageUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUpload.classList.add('dragover');
+        });
+        
+        imageUpload.addEventListener('dragleave', () => {
+            imageUpload.classList.remove('dragover');
+        });
+        
+        imageUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUpload.classList.remove('dragover');
+            handleImageUpload(e.dataTransfer.files);
+        });
+        
+        function handleImageUpload(files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push({
+                            name: file.name,
+                            data: e.target.result
+                        });
+                        updateImagePreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+        
+        function updateImagePreview() {
+            imagePreviewContainer.innerHTML = '';
+            uploadedImages.forEach((image, index) => {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                
+                const img = document.createElement('img');
+                img.src = image.data;
+                img.alt = image.name;
+                
+                const removeBtn = document.createElement('div');
+                removeBtn.className = 'image-remove';
+                removeBtn.innerHTML = '<span class="material-icons">close</span>';
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    uploadedImages.splice(index, 1);
+                    updateImagePreview();
+                });
+                
+                preview.appendChild(img);
+                preview.appendChild(removeBtn);
+                imagePreviewContainer.appendChild(preview);
+            });
+        }
         
         feedbackForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -576,6 +826,7 @@
                 category: formData.get('category'),
                 message: formData.get('message'),
                 contactPermission: formData.get('contact-permission') ? '是' : '否',
+                images: uploadedImages,
                 timestamp: new Date().toLocaleString('zh-CN')
             };
             
@@ -661,6 +912,8 @@
             feedbackForm.reset();
             ratingOptions.forEach(opt => opt.classList.remove('selected'));
             ratingInput.value = '';
+            uploadedImages = [];
+            updateImagePreview();
         }
     </script>
 </body>
