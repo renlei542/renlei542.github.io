@@ -3,38 +3,607 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户反馈 - 优化体验</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Aureus | 更优质的用户体验 </title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         :root {
-            --md-primary: #6750A4;
-            --md-on-primary: #FFFFFF;
-            --md-primary-container: #EADDFF;
-            --md-on-primary-container: #21005D;
-            --md-secondary: #625B71;
-            --md-on-secondary: #FFFFFF;
-            --md-secondary-container: #E8DEF8;
-            --md-on-secondary-container: #1D192B;
-            --md-tertiary: #7D5260;
-            --md-on-tertiary: #FFFFFF;
-            --md-tertiary-container: #FFD8E4;
-            --md-on-tertiary-container: #31111D;
-            --md-error: #B3261E;
-            --md-on-error: #FFFFFF;
-            --md-error-container: #F9DEDC;
-            --md-on-error-container: #410E0B;
-            --md-background: #FFFBFE;
-            --md-on-background: #1C1B1F;
-            --md-surface: #FFFBFE;
-            --md-on-surface: #1C1B1F;
-            --md-surface-variant: #E7E0EC;
-            --md-on-surface-variant: #49454F;
-            --md-outline: #79747E;
-            --md-shadow: #000000;
+            --primary: #7c3aed;
+            --primary-container: #4c1d95;
+            --secondary: #06b6d4;
+            --secondary-container: #0e7490;
+            --tertiary: #f59e0b;
+            --tertiary-container: #d97706;
+            --surface: #0f0f23;
+            --surface-variant: #1e1e3f;
+            --background: #0a0a1a;
+            --error: #ef4444;
+            --error-container: #7f1d1d;
+            --on-primary: #ffffff;
+            --on-secondary: #000000;
+            --on-background: #e2e8f0;
+            --on-surface: #cbd5e1;
+            --on-surface-variant: #94a3b8;
+            --outline: #475569;
             
-            --md-space-xs: 8px;
-            --md-space-sm: 16px;
+            --neon-glow: 0 0 10px rgba(124, 58, 237, 0.7), 0 0 20px rgba(124, 58, 237, 0.5), 0 0 30px rgba(124, 58, 237, 0.3);
+            --neon-secondary: 0 0 10px rgba(6, 182, 212, 0.7), 0 0 20px rgba(6, 182, 212, 0.5);
+            
+            --metal-gradient: linear-gradient(145deg, #1a1a2e, #0f0f23);
+            --metal-border: 1px solid rgba(124, 58, 237, 0.3);
+            
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-extra: 24px;
+            
+            --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+            --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+            --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+            
+            --transition-fast: 0.15s ease-out;
+            --transition-normal: 0.3s ease-out;
+            --transition-slow: 0.5s ease-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--on-background);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: var(--surface);
+            border-bottom: var(--metal-border);
+            box-shadow: var(--shadow-2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--on-surface);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            filter: drop-shadow(var(--neon-glow));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: var(--on-surface);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-small);
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .hero {
+            padding: 80px 0;
+            background: var(--metal-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+            text-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--on-surface-variant);
+            max-width: 600px;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-medium);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            border: none;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition-normal);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-container);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.8), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            box-shadow: var(--neon-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(6, 182, 212, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+            color: var(--on-surface);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-large);
+            padding: 24px;
+            box-shadow: var(--shadow-1);
+            border: var(--metal-border);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-3), var(--neon-glow);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-container);
+            border-radius: var(--radius-extra);
+            margin-bottom: 16px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--on-surface);
+        }
+
+        .card-description {
+            color: var(--on-surface-variant);
+        }
+
+        .features {
+            background: var(--surface-variant);
+        }
+
+        .footer {
+            background: var(--surface);
+            border-top: var(--metal-border);
+            padding: 48px 0 24px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--on-surface);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--on-surface-variant);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--outline);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .copyright {
+            color: var(--on-surface-variant);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface-variant);
+            color: var(--on-surface-variant);
+            transition: var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">
+                    <span class="material-symbols-outlined logo-icon">auto_awesome</span>
+                    AUREUS
+                </a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active">首页</a>
+                    <a href="#" class="nav-link">功能</a>
+                    <a href="#" class="nav-link">文档</a>
+                    <a href="#" class="nav-link">社区</a>
+                    <a href="#" class="nav-link">支持</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title floating">AUREUS</h1>
+                <p class="hero-subtitle">更加优质的用户体验,更加现代化的UI。</p>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+                    <button class="btn btn-primary pulse">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                        立即开始
+                    </button>
+                    <button class="btn btn-secondary">
+                        <span class="material-symbols-outlined">code</span>
+                        查看文档
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section features">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">palette</span>
+                    </div>
+                    <h3 class="card-title">动态色彩系统</h3>
+                    <p class="card-description">基于Material You的动态色彩系统，根据用户偏好自动调整界面色调，提供个性化体验。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">animation</span>
+                    </div>
+                    <h3 class="card-title">流畅动画</h3>
+                    <p class="card-description">精心设计的微交互与过渡动画，让每个操作都充满响应感和愉悦感。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">devices</span>
+                    </div>
+                    <h3 class="card-title">全平台适配</h3>
+                    <p class="card-description">完美适配桌面、平板和移动设备，确保在任何屏幕上都有出色的显示效果。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">bolt</span>
+                    </div>
+                    <h3 class="card-title">高性能</h3>
+                    <p class="card-description">优化的渲染性能与资源加载策略，确保即使在低端设备上也能流畅运行。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">security</span>
+                    </div>
+                    <h3 class="card-title">企业级安全</h3>
+                    <p class="card-description">内置多重安全防护机制，保障企业数据与应用的安全性。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-symbols-outlined">extension</span>
+                    </div>
+                    <h3 class="card-title">可扩展架构</h3>
+                    <p class="card-description">模块化设计允许轻松扩展功能，满足各种复杂业务场景需求。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>产品</h3>
+                        <ul>
+                            <li><a href="#">功能</a></li>
+                            <li><a href="#">企业版</a></li>
+                            <li><a href="#">定价</a></li>
+                            <li><a href="#">更新日志</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>资源</h3>
+                        <ul>
+                            <li><a href="#">文档</a></li>
+                            <li><a href="#">教程</a></li>
+                            <li><a href="#">博客</a></li>
+                            <li><a href="#">社区</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>公司</h3>
+                        <ul>
+                            <li><a href="#">关于我们</a></li>
+                            <li><a href="#">职业</a></li>
+                            <li><a href="#">联系方式</a></li>
+                            <li><a href="#">合作伙伴</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>法律</h3>
+                        <ul>
+                            <li><a href="#">隐私政策</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">Cookie政策</a></li>
+                            <li><a href="#">GDPR</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">© 2025 Aureus. 保留所有权利.</div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <span class="material-symbols-outlined">public</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <span class="material-symbols-outlined">code</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <span class="material-symbols-outlined">forum</span>
+                        </a>
+                        <a href="#" class="social-link">
+                            <span class="material-symbols-outlined">diversity_3</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>            --md-space-sm: 16px;
             --md-space-md: 24px;
             --md-space-lg: 32px;
             --md-space-xl: 40px;
